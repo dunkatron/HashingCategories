@@ -11,11 +11,13 @@
 
  Category method names are of the format
 	- (NSString *)stringByHashingWith<hash>
-	returns an NSString containing the hex-encoded human-readable hash for the specified hashing function
+	returns an NSString containing the hex-encoded human-readable hash for the specified hashing function. The string is converted to an NSData using the UTF8 encoding scheme
+	- (NSString *)stringByHashingWith<hash>UsingEncoding:(NSStringEncoding)encoding
+	returns an NSString containing the hex-encoded human-readable hash for the specified hashing function, converting the NSString into an NSData using the given encoding scheme
 
  Supported values for <hash> are
 	SHA-1 and variants:
-		SHA256, SHA224, SHA384, SHA512
+		SHA1, SHA256, SHA224, SHA384, SHA512
 	MD5 and variants:
 		MD2, MD4, MD5
 */
@@ -25,7 +27,9 @@
 @interface NSString (Hashing)
 
 #define STRING_HASH_METHOD_SIG(HASH) - (NSString *)stringByHashingWith##HASH;
+#define STRING_HASH_METHOD_ENCODING_SIG(HASH) - (NSString *)stringByHashingWith##HASH##UsingEncoding:(NSStringEncoding)encoding;
 
+STRING_HASH_METHOD_SIG(SHA1);
 STRING_HASH_METHOD_SIG(SHA224);
 STRING_HASH_METHOD_SIG(SHA256);
 STRING_HASH_METHOD_SIG(SHA384);
@@ -35,5 +39,16 @@ STRING_HASH_METHOD_SIG(MD2);
 STRING_HASH_METHOD_SIG(MD4);
 STRING_HASH_METHOD_SIG(MD5);
 
+STRING_HASH_METHOD_ENCODING_SIG(SHA1);
+STRING_HASH_METHOD_ENCODING_SIG(SHA224);
+STRING_HASH_METHOD_ENCODING_SIG(SHA256);
+STRING_HASH_METHOD_ENCODING_SIG(SHA384);
+STRING_HASH_METHOD_ENCODING_SIG(SHA512);
+
+STRING_HASH_METHOD_ENCODING_SIG(MD2);
+STRING_HASH_METHOD_ENCODING_SIG(MD4);
+STRING_HASH_METHOD_ENCODING_SIG(MD5);
+
 #undef STRING_HASH_METHOD_SIG
+#undef STRING_HASH_METHOD_ENCODING_SIG
 @end
